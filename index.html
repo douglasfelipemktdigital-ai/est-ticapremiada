@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escolha seu Número · Bilhete da Beleza</title>
+<meta name="description" content="Você já garantiu seu bilhete. Agora escolha seu número da sorte.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D1B2A;
+  --navy-deep: #081320;
+  --navy-card: #15263B;
+  --teal: #10B981;
+  --teal-bright: #1FD79A;
+  --teal-soft: rgba(16,185,129,0.15);
+  --gold: #E8C46F;
+  --gold-bright: #F5D78A;
+  --cream: #FFF8EC;
+  --white: #FFFFFF;
+  --warning: #FFF4D6;
+  --warning-text: #6B5B00;
+  --gray-sold: #2A3850;
+  --gray-text: #5C6B82;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  background-image:
+    radial-gradient(ellipse at top, rgba(16,185,129,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(232,196,111,0.05) 0%, transparent 50%);
+}
+
+.serif { font-family: 'Fraunces', serif; }
+
+/* HEADER */
+.header {
+  padding: 28px 20px 0;
+  text-align: center;
+}
+.logo-badge {
+  display: inline-block;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 12px 22px;
+  margin-bottom: 28px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.logo-badge .name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.5px;
+}
+.logo-badge .sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--teal);
+  margin-top: 1px;
+  font-weight: 700;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px 120px;
+}
+
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 7vw, 48px);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -1.2px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.hero-title .accent {
+  color: var(--teal-bright);
+  font-style: italic;
+}
+.hero-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  margin-bottom: 32px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* PROGRESS SECTION */
+.progress-card {
+  background: var(--navy-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 24px 22px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 60%; height: 200%;
+  background: radial-gradient(ellipse, rgba(16,185,129,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  position: relative;
+}
+.progress-stats {
+  font-family: 'Fraunces', serif;
+}
+.progress-stats .sold {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--teal-bright);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.progress-stats .total {
+  font-size: 22px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+}
+.progress-stats .label {
+  font-family: 'Inter', sans-serif;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+.progress-remaining {
+  text-align: right;
+}
+.progress-remaining .num {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold-bright);
+  line-height: 1;
+}
+.progress-remaining .lbl {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+.progress-bar {
+  height: 10px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--teal-bright));
+  border-radius: 10px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+  box-shadow: 0 0 12px rgba(16,185,129,0.5);
+}
+.refresh-tag {
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.refresh-tag .dot {
+  width: 6px; height: 6px;
+  background: var(--teal-bright);
+  border-radius: 50%;
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* LEGEND */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.legend-swatch {
+  width: 14px; height: 14px;
+  border-radius: 4px;
+}
+.legend-swatch.available { background: var(--teal); box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+.legend-swatch.reserved { background: var(--gold); }
+.legend-swatch.sold { background: var(--gray-sold); border: 1px solid rgba(255,255,255,0.1); }
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  margin-bottom: 32px;
+}
+.num-cell {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(13px, 2.6vw, 18px);
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  border: 2px solid transparent;
+}
+
+.num-cell.available {
+  background: linear-gradient(135deg, var(--teal) 0%, #0d9e6d 100%);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+.num-cell.available:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(16,185,129,0.55);
+  border-color: var(--teal-bright);
+}
+.num-cell.available:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.num-cell.reserved {
+  background: linear-gradient(135deg, var(--gold) 0%, #b8964a 100%);
+  color: var(--navy);
+  cursor: not-allowed;
+}
+
+.num-cell.sold {
+  background: var(--gray-sold);
+  color: rgba(255,255,255,0.4);
+  cursor: not-allowed;
+  position: relative;
+}
+.num-cell.sold::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 15%; right: 15%;
+  height: 1.5px;
+  background: rgba(255,255,255,0.25);
+  transform: rotate(-15deg);
+  border-radius: 1px;
+}
+
+.num-cell .buyer-tag {
+  display: none;
+}
+
+/* Tooltip-style hover for sold */
+.num-cell.sold:hover {
+  background: #34445D;
+}
+
+/* Loading state */
+.num-cell.loading {
+  background: rgba(255,255,255,0.06);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+/* Mobile adjust grid */
+@media (max-width: 480px) {
+  .grid { gap: 4px; }
+  .num-cell { border-radius: 8px; }
+}
+
+/* MODAL */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,19,32,0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: linear-gradient(180deg, var(--navy-card) 0%, var(--navy) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 32px 26px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  animation: modalUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modalUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.06);
+  border: none;
+  border-radius: 50%;
+  color: var(--white);
+  font-size: 22px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.12); }
+
+.modal-number {
+  width: 88px;
+  height: 88px;
+  margin: 8px auto 22px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--navy);
+  box-shadow: 0 12px 32px rgba(232,196,111,0.4);
+}
+.modal-title {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.modal-title .accent { color: var(--teal-bright); font-style: italic; }
+.modal-text {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 22px;
+  line-height: 1.55;
+}
+
+.modal-steps {
+  text-align: left;
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 18px 18px 14px;
+  margin-bottom: 22px;
+}
+.modal-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+}
+.modal-step:last-child { margin-bottom: 0; }
+.modal-step .step-n {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  background: var(--teal);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+.btn-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #25D366;
+  color: var(--white);
+  border: none;
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(37,211,102,0.3);
+}
+.btn-wa:hover {
+  background: #1ebe5c;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(37,211,102,0.45);
+}
+.btn-wa svg { width: 20px; height: 20px; fill: white; }
+
+/* SOLD MODAL variant */
+.modal-number.sold-style {
+  background: linear-gradient(135deg, var(--gray-sold), #34445D);
+  color: rgba(255,255,255,0.5);
+}
+
+/* FAB */
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+  width: 60px; height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  animation: fabPulse 2.5s ease-in-out infinite;
+}
+.fab:hover { transform: scale(1.08); }
+.fab svg { width: 30px; height: 30px; fill: white; }
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 8px 24px rgba(37,211,102,0.4), 0 0 0 12px rgba(37,211,102,0); }
+}
+
+/* Loading overlay first paint */
+.boot-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  flex-direction: column;
+  gap: 18px;
+}
+.boot-loader.hidden { display: none; }
+.spinner {
+  width: 38px; height: 38px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: var(--teal-bright);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.boot-loader p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1px;
+}
+
+/* Status banner (sold-out) */
+.banner {
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: var(--navy);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 22px;
+  text-align: center;
+  display: none;
+  animation: modalUp 0.5s ease;
+}
+.banner.show { display: block; }
+.banner-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.banner-text {
+  font-size: 14px;
+  margin-top: 4px;
+  color: rgba(13,27,42,0.75);
+}
+
+/* Error state */
+.error-msg {
+  background: rgba(255,80,80,0.12);
+  border: 1px solid rgba(255,80,80,0.3);
+  color: #FF9090;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 22px;
+  display: none;
+}
+.error-msg.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="boot-loader" id="bootLoader">
+  <div class="spinner"></div>
+  <p>Carregando bilhetes...</p>
+</div>
+
+<header class="header">
+  <div class="logo-badge">
+    <div class="name">Emagrecentro</div>
+    <div class="sub">VILA DA PENHA</div>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="hero-title">Escolha seu <span class="accent">número</span> da sorte</h1>
+  <p class="hero-sub">Toque em um número disponível para registrá-lo como seu. Acompanhe aqui em tempo real os números já escolhidos e quantos faltam pro sorteio acontecer.</p>
+
+  <div class="banner" id="soldOutBanner">
+    <div class="banner-title">🎁 Todos os números foram escolhidos!</div>
+    <div class="banner-text">Agora é só aguardar — o sorteio acontecerá em breve no grupo do WhatsApp.</div>
+  </div>
+
+  <div class="error-msg" id="errorMsg">
+    Não foi possível carregar os bilhetes. Tente atualizar a página.
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-header">
+      <div class="progress-stats">
+        <span class="sold" id="soldCount">0</span><span class="total">/100</span>
+        <span class="label">Números escolhidos</span>
+      </div>
+      <div class="progress-remaining">
+        <div class="num" id="remainingCount">100</div>
+        <span class="lbl">Restantes</span>
+      </div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="refresh-tag">
+      <span class="dot"></span>
+      Atualizado em tempo real · Última atualização: <span id="lastUpdate">agora</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch available"></div> Disponível</div>
+    <div class="legend-item"><div class="legend-swatch reserved"></div> Reservado</div>
+    <div class="legend-item"><div class="legend-swatch sold"></div> Vendido</div>
+  </div>
+
+  <div class="grid" id="grid">
+    <!-- 100 cells populated by JS -->
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:rgba(255,255,255,0.45); max-width:480px; margin:0 auto; line-height:1.6;">
+    Os números são atualizados automaticamente. Se o número que você escolheu já foi pego, é só selecionar outro disponível.
+  </p>
+</main>
+
+<!-- MODAL CONFIRM -->
+<div class="modal-bg" id="modalConfirm">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-number" id="modalNum">00</div>
+    <h3 class="modal-title">Confirmar o número <span class="accent" id="modalNumText">00</span>?</h3>
+    <p class="modal-text">Toque no botão abaixo para nos avisar pelo WhatsApp que esse é o seu número da sorte. A gente registra na hora e ele aparece travado pra você aqui na lista.</p>
+    <div class="modal-steps">
+      <div class="modal-step">
+        <div class="step-n">1</div>
+        <div>Você é direcionado pro WhatsApp com uma mensagem pronta</div>
+      </div>
+      <div class="modal-step">
+        <div class="step-n">2</div>
+        <div>Confirma o envio — não precisa digitar nada</div>
+      </div>
+      <div class="modal-step">
+        <div class="step-n">3</div>
+        <div>Em poucos minutos, registramos seu nome no número escolhido</div>
+      </div>
+    </div>
+    <a id="waLink" href="#" target="_blank" rel="noopener" class="btn-wa">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+      Confirmar bilhete nº <span id="waBtnNum">00</span>
+    </a>
+  </div>
+</div>
+
+<!-- MODAL SOLD -->
+<div class="modal-bg" id="modalSold">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-number sold-style" id="modalSoldNum">00</div>
+    <h3 class="modal-title">Número <span id="modalSoldNumText">00</span> já foi escolhido</h3>
+    <p class="modal-text" id="modalSoldBuyer">Este número já foi escolhido. Que tal pegar outro?</p>
+    <button class="btn-wa" style="background: var(--teal);" onclick="closeModal()">Escolher outro número</button>
+  </div>
+</div>
+
+<!-- WhatsApp FAB -->
+<a href="https://chat.whatsapp.com/KwL5ZN3kEcXHSumLXAu1CK" class="fab" target="_blank" rel="noopener" aria-label="Entrar no grupo">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<script>
+// ╔════════════════════════════════════════════════════════════╗
+// ║  CONFIGURAÇÃO — EDITE APENAS AS 3 LINHAS ABAIXO            ║
+// ╚════════════════════════════════════════════════════════════╝
+
+const CONFIG = {
+  // URL da planilha Google Sheets publicada como CSV
+  CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSY7TuToWinNV4v1zBrPvgKEffsTX763T6388gejbhaeHV1QaUhe_SANLXYnoPzLIr49ckAhUHU67fI/pub?gid=1502759634&single=true&output=csv',
+
+  // Número do WhatsApp para receber os pedidos (formato: 55 + DDD + número, sem +, sem espaço)
+  WHATSAPP_ATENDIMENTO: '5521964116223',
+
+  // Atualização automática (segundos)
+  AUTO_REFRESH_SECONDS: 30
+};
+
+// ╔════════════════════════════════════════════════════════════╗
+// ║  NÃO PRECISA MEXER ABAIXO DAQUI                            ║
+// ╚════════════════════════════════════════════════════════════╝
+
+const TOTAL_NUMBERS = 100;
+let bilhetes = {}; // { 1: {status: 'sold', buyer: 'Maria'}, ... }
+
+// Build grid skeleton
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  for (let i = 1; i <= TOTAL_NUMBERS; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'num-cell loading';
+    cell.dataset.num = i;
+    cell.textContent = String(i).padStart(2, '0');
+    cell.addEventListener('click', () => handleClick(i));
+    grid.appendChild(cell);
+  }
+}
+
+// Parse CSV simple
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  const result = [];
+  // skip header if exists
+  for (let i = 1; i < lines.length; i++) {
+    const cells = parseLine(lines[i]);
+    if (cells.length >= 1 && cells[0]) result.push(cells);
+  }
+  return result;
+}
+
+function parseLine(line) {
+  const cells = [];
+  let cur = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') {
+      if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (c === ',' && !inQuotes) {
+      cells.push(cur.trim());
+      cur = '';
+    } else cur += c;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+// Fetch sheet & update state
+async function fetchData() {
+  if (CONFIG.CSV_URL.startsWith('COLE')) {
+    showError('⚠️ Configure a URL da planilha no código (CONFIG.CSV_URL)');
+    document.getElementById('bootLoader').classList.add('hidden');
+    // Demo data so user sees the page working
+    bilhetes = { 7: {status:'sold', buyer:'Demo'}, 23: {status:'reserved', buyer:''}, 88: {status:'sold', buyer:'Demo'} };
+    render();
+    return;
+  }
+
+  try {
+    // Add cache-buster to ensure fresh data
+    const url = CONFIG.CSV_URL + (CONFIG.CSV_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+
+    // Reset
+    bilhetes = {};
+    rows.forEach(row => {
+      const num = parseInt(row[0], 10);
+      if (!num || num < 1 || num > TOTAL_NUMBERS) return;
+      const nome = (row[1] || '').trim();
+      const status = ((row[3] || '') + '').trim().toLowerCase();
+      // Map status: "pago" / "confirmado" = sold ; "reservado" / "pendente" = reserved
+      let stKey = null;
+      if (['pago', 'confirmado', 'sold', 'vendido'].some(k => status.includes(k))) stKey = 'sold';
+      else if (['reservado', 'pendente', 'aguardando'].some(k => status.includes(k))) stKey = 'reserved';
+      if (stKey) bilhetes[num] = { status: stKey, buyer: nome };
+    });
+
+    hideError();
+    render();
+    document.getElementById('bootLoader').classList.add('hidden');
+    document.getElementById('lastUpdate').textContent = formatTime(new Date());
+  } catch (e) {
+    console.error(e);
+    showError();
+    document.getElementById('bootLoader').classList.add('hidden');
+  }
+}
+
+function formatTime(d) {
+  const h = String(d.getHours()).padStart(2, '0');
+  const m = String(d.getMinutes()).padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  if (msg) el.textContent = msg;
+  el.classList.add('show');
+}
+function hideError() {
+  document.getElementById('errorMsg').classList.remove('show');
+}
+
+// Render grid + progress
+function render() {
+  let sold = 0;
+  for (let i = 1; i <= TOTAL_NUMBERS; i++) {
+    const cell = document.querySelector(`.num-cell[data-num="${i}"]`);
+    cell.classList.remove('loading', 'available', 'sold', 'reserved');
+    const data = bilhetes[i];
+    if (!data) cell.classList.add('available');
+    else if (data.status === 'sold') { cell.classList.add('sold'); sold++; }
+    else if (data.status === 'reserved') { cell.classList.add('reserved'); sold++; }
+  }
+  document.getElementById('soldCount').textContent = sold;
+  document.getElementById('remainingCount').textContent = TOTAL_NUMBERS - sold;
+  document.getElementById('progressFill').style.width = (sold / TOTAL_NUMBERS * 100) + '%';
+
+  const banner = document.getElementById('soldOutBanner');
+  if (sold >= TOTAL_NUMBERS) banner.classList.add('show');
+  else banner.classList.remove('show');
+}
+
+// Handle click on a number cell
+function handleClick(num) {
+  const data = bilhetes[num];
+  const padded = String(num).padStart(2, '0');
+
+  if (data && data.status === 'sold') {
+    document.getElementById('modalSoldNum').textContent = padded;
+    document.getElementById('modalSoldNumText').textContent = padded;
+    document.getElementById('modalSoldBuyer').textContent = data.buyer
+      ? `Já está registrado para ${data.buyer}. Escolha outro número disponível!`
+      : 'Esse número já foi escolhido por outra pessoa. Selecione outro!';
+    document.getElementById('modalSold').classList.add('show');
+    return;
+  }
+  if (data && data.status === 'reserved') {
+    document.getElementById('modalSoldNum').textContent = padded;
+    document.getElementById('modalSoldNumText').textContent = padded;
+    document.getElementById('modalSoldBuyer').textContent = 'Esse número está aguardando confirmação. Escolha outro disponível!';
+    document.getElementById('modalSold').classList.add('show');
+    return;
+  }
+
+  // Available — open confirm modal
+  document.getElementById('modalNum').textContent = padded;
+  document.getElementById('modalNumText').textContent = padded;
+  document.getElementById('waBtnNum').textContent = padded;
+  const msg = encodeURIComponent(`Olá! Já fiz o pagamento e quero registrar o bilhete da beleza nº ${padded} como meu. Pode confirmar pra mim, por favor?`);
+  document.getElementById('waLink').href = `https://wa.me/${CONFIG.WHATSAPP_ATENDIMENTO}?text=${msg}`;
+  document.getElementById('modalConfirm').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalConfirm').classList.remove('show');
+  document.getElementById('modalSold').classList.remove('show');
+}
+
+// Close modal on backdrop click
+['modalConfirm', 'modalSold'].forEach(id => {
+  document.getElementById(id).addEventListener('click', (e) => {
+    if (e.target.id === id) closeModal();
+  });
+});
+// ESC to close
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+// BOOT
+buildGrid();
+fetchData();
+// Auto refresh
+setInterval(fetchData, CONFIG.AUTO_REFRESH_SECONDS * 1000);
+// Refresh on tab focus (mobile users coming back)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') fetchData();
+});
+</script>
+
+</body>
+</html>
